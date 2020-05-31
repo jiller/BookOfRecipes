@@ -37,9 +37,13 @@ namespace BookOfRecipes.WebApi
                 .Where(a => a.GetName().Name.StartsWith("BookOfRecipes"))
                 .ToArray());
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerDocument(settings =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Book of Recipes API", Version = "v1" });
+                settings.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Book of Recipes API";
+                };
             });
         }
 
@@ -62,7 +66,7 @@ namespace BookOfRecipes.WebApi
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger();
+            app.UseOpenApi();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Book of Recipes API");
