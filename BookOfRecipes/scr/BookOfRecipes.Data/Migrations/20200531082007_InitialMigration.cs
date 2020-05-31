@@ -8,6 +8,19 @@ namespace BookOfRecipes.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Recipes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -67,49 +80,84 @@ namespace BookOfRecipes.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recipes",
+                name: "RecipeVariations",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(maxLength: 200, nullable: true),
-                    Discriminator = table.Column<string>(nullable: false),
+                    RecipeId = table.Column<int>(nullable: false),
                     Country = table.Column<string>(nullable: true),
-                    Year = table.Column<int>(nullable: true),
+                    Year = table.Column<int>(nullable: false),
                     CookingDescription = table.Column<string>(nullable: true),
-                    TimeOfCooking = table.Column<int>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: true),
-                    CreatedBy = table.Column<int>(nullable: true),
-                    UpdateAt = table.Column<DateTime>(nullable: true),
-                    UpdatedBy = table.Column<int>(nullable: true),
-                    RecipeId = table.Column<int>(nullable: true)
+                    TimeOfCooking = table.Column<int>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    CreatedBy = table.Column<int>(nullable: false),
+                    RecipeId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recipes", x => x.Id);
+                    table.PrimaryKey("PK_RecipeVariations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Recipes_Recipes_RecipeId",
+                        name: "FK_RecipeVariations_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RecipeVariations_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Recipes_Users_UpdatedBy",
-                        column: x => x.UpdatedBy,
-                        principalTable: "Users",
+                        name: "FK_RecipeVariations_Recipes_RecipeId1",
+                        column: x => x.RecipeId1,
+                        principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Ingredients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    Amount = table.Column<decimal>(nullable: false),
+                    MeasureUnit = table.Column<string>(nullable: true),
+                    RecipeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingredients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ingredients_RecipeVariations_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "RecipeVariations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_RecipeId",
-                table: "Recipes",
+                name: "IX_Ingredients_RecipeId",
+                table: "Ingredients",
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_UpdatedBy",
-                table: "Recipes",
-                column: "UpdatedBy");
+                name: "IX_RecipeVariations_CreatedBy",
+                table: "RecipeVariations",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecipeVariations_RecipeId",
+                table: "RecipeVariations",
+                column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecipeVariations_RecipeId1",
+                table: "RecipeVariations",
+                column: "RecipeId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RolePermissions_RoleId1",
@@ -125,13 +173,19 @@ namespace BookOfRecipes.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Recipes");
+                name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "RolePermissions");
 
             migrationBuilder.DropTable(
+                name: "RecipeVariations");
+
+            migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Recipes");
 
             migrationBuilder.DropTable(
                 name: "Roles");

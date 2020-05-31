@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BookOfRecipes.DataAccess.Recipes.Model
+namespace BookOfRecipes.BusinessLogic.Recipes.Model
 {
     public class RecipeDto
     {

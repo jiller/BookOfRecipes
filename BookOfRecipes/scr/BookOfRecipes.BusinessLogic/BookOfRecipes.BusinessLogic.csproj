@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="MediatR" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookOfRecipes.DataAccess\BookOfRecipes.DataAccess.csproj" />
+    <ProjectReference Include="..\BookOfRecipes.Data\BookOfRecipes.Data.csproj" />
   </ItemGroup>
 
 </Project>

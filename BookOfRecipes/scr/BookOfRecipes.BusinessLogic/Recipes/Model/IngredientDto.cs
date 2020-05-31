@@ -1,4 +1,4 @@
-﻿namespace BookOfRecipes.DataAccess.Recipes.Model
+﻿namespace BookOfRecipes.BusinessLogic.Recipes.Model
 {
     public class IngredientDto
     {

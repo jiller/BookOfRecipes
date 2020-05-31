@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using AutoMapper;
+using BookOfRecipes.BusinessLogic.Mapping;
 using BookOfRecipes.Data;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace BookOfRecipes.WebApi
 {
@@ -28,9 +31,16 @@ namespace BookOfRecipes.WebApi
             services.AddDbContext<BookOfRecipesContext>(options => 
                 options.UseSqlite(Configuration.GetConnectionString("BookOfRecipes")));
 
+            services.AddAutoMapper(typeof(RecipeVariationProfile));
+
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies()
                 .Where(a => a.GetName().Name.StartsWith("BookOfRecipes"))
                 .ToArray());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Book of Recipes API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +60,12 @@ namespace BookOfRecipes.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Book of Recipes API");
             });
         }
     }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookOfRecipes.Data.Migrations
 {
     [DbContext(typeof(BookOfRecipesContext))]
-    [Migration("20200531072245_InitialMigration")]
+    [Migration("20200531082007_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,15 +18,37 @@ namespace BookOfRecipes.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.4");
 
-            modelBuilder.Entity("BookOfRecipes.Data.Recipe", b =>
+            modelBuilder.Entity("BookOfRecipes.Data.Ingredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
+                    b.Property<decimal>("Amount")
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("MeasureUnit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("BookOfRecipes.Data.Recipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT")
@@ -35,8 +57,47 @@ namespace BookOfRecipes.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Recipes");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Recipe");
+            modelBuilder.Entity("BookOfRecipes.Data.RecipeVariation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CookingDescription")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RecipeId1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TimeOfCooking")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("RecipeId1");
+
+                    b.ToTable("RecipeVariations");
                 });
 
             modelBuilder.Entity("BookOfRecipes.Data.Role", b =>
@@ -96,42 +157,32 @@ namespace BookOfRecipes.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("BookOfRecipes.Data.Ingredient", b =>
+                {
+                    b.HasOne("BookOfRecipes.Data.RecipeVariation", "Recipe")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BookOfRecipes.Data.RecipeVariation", b =>
                 {
-                    b.HasBaseType("BookOfRecipes.Data.Recipe");
+                    b.HasOne("BookOfRecipes.Data.User", "Author")
+                        .WithMany("Recipes")
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("CookingDescription")
-                        .HasColumnType("TEXT");
+                    b.HasOne("BookOfRecipes.Data.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Country")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("RecipeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TimeOfCooking")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("RecipeId");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.HasDiscriminator().HasValue("RecipeVariation");
+                    b.HasOne("BookOfRecipes.Data.Recipe", null)
+                        .WithMany("Variations")
+                        .HasForeignKey("RecipeId1");
                 });
 
             modelBuilder.Entity("BookOfRecipes.Data.RolePermission", b =>
@@ -154,17 +205,6 @@ namespace BookOfRecipes.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookOfRecipes.Data.RecipeVariation", b =>
-                {
-                    b.HasOne("BookOfRecipes.Data.Recipe", null)
-                        .WithMany("Variations")
-                        .HasForeignKey("RecipeId");
-
-                    b.HasOne("BookOfRecipes.Data.User", null)
-                        .WithMany("Recipes")
-                        .HasForeignKey("UpdatedBy");
                 });
 #pragma warning restore 612, 618
         }

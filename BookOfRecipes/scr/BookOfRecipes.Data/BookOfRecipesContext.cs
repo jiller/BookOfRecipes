@@ -9,6 +9,11 @@ namespace BookOfRecipes.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+
+        public BookOfRecipesContext() : base()
+        {
+        }
 
         public BookOfRecipesContext(DbContextOptions<BookOfRecipesContext> options) : base(options)
         {
@@ -25,17 +30,17 @@ namespace BookOfRecipes.Data
             modelBuilder.Entity<Recipe>()
                 .Property(r => r.Name)
                 .HasMaxLength(200);
+            modelBuilder.Entity<Recipe>()
+                .HasMany<RecipeVariation>()
+                .WithOne(rv => rv.Recipe)
+                .HasForeignKey(rv => rv.RecipeId);
 
             modelBuilder.Entity<RecipeVariation>()
-                .HasBaseType<Recipe>();
+                .HasKey(rv => rv.Id);
             modelBuilder.Entity<RecipeVariation>()
-                .HasOne<User>()
+                .HasOne<User>(rv => rv.Author)
                 .WithMany(u => u.Recipes)
                 .HasForeignKey(rv => rv.CreatedBy);
-            modelBuilder.Entity<RecipeVariation>()
-                .HasOne<User>()
-                .WithMany(u => u.Recipes)
-                .HasForeignKey(rv => rv.UpdatedBy);
 
             modelBuilder.Entity<User>()
                 .HasKey(u => u.Id);
@@ -66,6 +71,16 @@ namespace BookOfRecipes.Data
                     rp.RoleId,
                     rp.Permission
                 });
+
+            modelBuilder.Entity<Ingredient>()
+                .HasKey(i => i.Id);
+            modelBuilder.Entity<Ingredient>()
+                .Property(i => i.Name)
+                .HasMaxLength(100);
+            modelBuilder.Entity<Ingredient>()
+                .HasOne(i => i.Recipe)
+                .WithMany(r => r.Ingredients)
+                .HasForeignKey(i => i.RecipeId);
 
             base.OnModelCreating(modelBuilder);
         }

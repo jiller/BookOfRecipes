@@ -1,15 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using BookOfRecipes.DataAccess.Recipes.Model;
+using BookOfRecipes.BusinessLogic.Recipes.Requests;
+using JetBrains.Annotations;
 using MediatR;
 
-namespace BookOfRecipes.BusinessLogic
+namespace BookOfRecipes.BusinessLogic.Recipes.RequestHandlers
 {
-    public class UpdateRecipeRequest : IRequest
-    {
-        public RecipeDto Recipe { get; set; }
-    }
-
+    [UsedImplicitly]
     public class UpdateRecipeRequestHandler : AsyncRequestHandler<UpdateRecipeRequest>
     {
         protected override Task Handle(UpdateRecipeRequest request, CancellationToken cancellationToken)
