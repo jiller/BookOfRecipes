@@ -15,6 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookOfRecipes.ApiClient", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOfRecipes.WebApi.Tests", "tests\BookOfRecipes.WebApi.Tests\BookOfRecipes.WebApi.Tests.csproj", "{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOfRecipes.Data", "scr\BookOfRecipes.Data\BookOfRecipes.Data.csproj", "{35C62B03-F65F-4918-9C1B-C4C89A65183A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOfRecipes.DataAccess", "scr\BookOfRecipes.DataAccess\BookOfRecipes.DataAccess.csproj", "{5A925452-0459-4915-B96D-1C0124BD1E7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOfRecipes.BusinessLogic", "scr\BookOfRecipes.BusinessLogic\BookOfRecipes.BusinessLogic.csproj", "{F190F839-22CE-4A39-8D62-19368D941D59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +43,18 @@ Global
 		{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35C62B03-F65F-4918-9C1B-C4C89A65183A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35C62B03-F65F-4918-9C1B-C4C89A65183A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35C62B03-F65F-4918-9C1B-C4C89A65183A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35C62B03-F65F-4918-9C1B-C4C89A65183A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A925452-0459-4915-B96D-1C0124BD1E7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A925452-0459-4915-B96D-1C0124BD1E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A925452-0459-4915-B96D-1C0124BD1E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A925452-0459-4915-B96D-1C0124BD1E7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F190F839-22CE-4A39-8D62-19368D941D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F190F839-22CE-4A39-8D62-19368D941D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F190F839-22CE-4A39-8D62-19368D941D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F190F839-22CE-4A39-8D62-19368D941D59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,10 @@
+using System;
+using System.Linq;
+using BookOfRecipes.Data;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +24,13 @@ namespace BookOfRecipes.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<BookOfRecipesContext>(options => 
+                options.UseSqlite(Configuration.GetConnectionString("BookOfRecipes")));
+
+            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => a.GetName().Name.StartsWith("BookOfRecipes"))
+                .ToArray());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

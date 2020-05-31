@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BookOfRecipes.WebApi.Recipes.Model;
+﻿using System.Threading.Tasks;
+using BookOfRecipes.BusinessLogic;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,36 +11,32 @@ namespace BookOfRecipes.WebApi.Recipes
     public class RecipesController : ControllerBase
     {
         private readonly ILogger<RecipesController> _logger;
+        private readonly IMediator _mediator;
 
-        public RecipesController(ILogger<RecipesController> logger)
+        public RecipesController(ILogger<RecipesController> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var rnd = new Random();
-            var recipes = Enumerable.Range(1, 5).Select(index => new RecipeDto
-            {
-                Year = rnd.Next(2020),
-                Country = "Imaginarium",
-                TimeOfCooking = rnd.Next(180)
-            })
-            .ToArray();
-
+            var recipes = await _mediator.Send(new GetRecipesRequest());
             return Ok(recipes);
         }
 
         [HttpPost]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await _mediator.Send(new CreateRecipeRequest());
             return Accepted();
         }
 
         [HttpPut]
-        public IActionResult Post()
+        public async Task<IActionResult> Post()
         {
+            await _mediator.Send(new UpdateRecipeRequest());
             return Accepted();
         }
     }

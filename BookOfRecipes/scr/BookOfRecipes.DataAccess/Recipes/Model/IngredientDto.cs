@@ -1,4 +1,4 @@
-﻿namespace BookOfRecipes.WebApi.Recipes.Model
+﻿namespace BookOfRecipes.DataAccess.Recipes.Model
 {
     public class IngredientDto
     {
