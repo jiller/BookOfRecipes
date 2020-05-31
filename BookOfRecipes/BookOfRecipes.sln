@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOfRecipes.WebApi", "scr\BookOfRecipes.WebApi\BookOfRecipes.WebApi.csproj", "{F8B85B84-07B0-4F0C-A35D-7309ABA7A47D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{55A6F1C5-63BC-482B-81E0-5816C5CE74CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{90D709BF-FBCB-4749-A24B-013F7FAF5F23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOfRecipes.ApiClient.Tests", "client\BookOfRecipes.ApiClient.Tests\BookOfRecipes.ApiClient.Tests.csproj", "{3E10560B-2730-4823-9D72-02DCDF50B88E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookOfRecipes.ApiClient", "client\BookOfRecipes.ApiClient\BookOfRecipes.ApiClient.csproj", "{E5D9A735-1C66-4278-A900-C24200F11527}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookOfRecipes.WebApi.Tests", "tests\BookOfRecipes.WebApi.Tests\BookOfRecipes.WebApi.Tests.csproj", "{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8B85B84-07B0-4F0C-A35D-7309ABA7A47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B85B84-07B0-4F0C-A35D-7309ABA7A47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B85B84-07B0-4F0C-A35D-7309ABA7A47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B85B84-07B0-4F0C-A35D-7309ABA7A47D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E10560B-2730-4823-9D72-02DCDF50B88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E10560B-2730-4823-9D72-02DCDF50B88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E10560B-2730-4823-9D72-02DCDF50B88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E10560B-2730-4823-9D72-02DCDF50B88E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5D9A735-1C66-4278-A900-C24200F11527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5D9A735-1C66-4278-A900-C24200F11527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5D9A735-1C66-4278-A900-C24200F11527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5D9A735-1C66-4278-A900-C24200F11527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3E10560B-2730-4823-9D72-02DCDF50B88E} = {90D709BF-FBCB-4749-A24B-013F7FAF5F23}
+		{E5D9A735-1C66-4278-A900-C24200F11527} = {90D709BF-FBCB-4749-A24B-013F7FAF5F23}
+		{5D0F1BFB-5B8C-4E8A-9223-CB21E58B022B} = {55A6F1C5-63BC-482B-81E0-5816C5CE74CF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3296889C-30FC-44DC-B694-03DCAE9C7481}
+	EndGlobalSection
+EndGlobal
