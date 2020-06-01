@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using BookOfRecipes.BusinessLogic.Recipes.Model;
 using BookOfRecipes.Data;
 
@@ -15,8 +16,13 @@ namespace BookOfRecipes.BusinessLogic.Mapping
                 .ForMember(r => r.TimeOfCooking, opt => opt.MapFrom(rv => rv.TimeOfCooking))
                 .ForMember(r => r.Author, opt => opt.MapFrom(rv => rv.Author.Name))
                 .ForMember(r => r.CookingDescription, opt => opt.MapFrom(rv => rv.CookingDescription))
-                .ForMember(r => r.Ingredients, opt => opt.MapFrom(rv => rv.Ingredients))
-                .ReverseMap();
+                .ForMember(r => r.Ingredients, opt => opt.MapFrom(rv => rv.Ingredients));
+
+            CreateMap<RecipeDto, RecipeVariation>()
+                .ForMember(r => r.Author, opt => opt.Ignore())
+                .ForMember(r => r.CreatedAt, opt => opt.MapFrom(r => DateTime.UtcNow))
+                .ForMember(r => r.CreatedBy, opt => opt.MapFrom(r => 1)) // TODO: Map from current user
+                .ForAllOtherMembers(opt => opt.MapAtRuntime());
 
             CreateMap<Ingredient, IngredientDto>()
                 .ReverseMap();

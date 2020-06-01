@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookOfRecipes.Data.Migrations
 {
     [DbContext(typeof(BookOfRecipesContext))]
-    [Migration("20200531082007_InitialMigration")]
+    [Migration("20200601191003_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,12 +34,12 @@ namespace BookOfRecipes.Data.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int>("RecipeVariationId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipeId");
+                    b.HasIndex("RecipeVariationId");
 
                     b.ToTable("Ingredients");
                 });
@@ -113,6 +113,13 @@ namespace BookOfRecipes.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Default Role"
+                        });
                 });
 
             modelBuilder.Entity("BookOfRecipes.Data.RolePermission", b =>
@@ -155,13 +162,22 @@ namespace BookOfRecipes.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "test@mail.me",
+                            Name = "Test User",
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("BookOfRecipes.Data.Ingredient", b =>
                 {
-                    b.HasOne("BookOfRecipes.Data.RecipeVariation", "Recipe")
+                    b.HasOne("BookOfRecipes.Data.RecipeVariation", "RecipeVariation")
                         .WithMany("Ingredients")
-                        .HasForeignKey("RecipeId")
+                        .HasForeignKey("RecipeVariationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

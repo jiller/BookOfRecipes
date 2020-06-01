@@ -13,10 +13,12 @@ namespace BookOfRecipes.BusinessLogic.Recipes.RequestHandlers
     [UsedImplicitly]
     public class CreateRecipeRequestHandler : AsyncRequestHandler<CreateRecipeRequest>
     {
+        private readonly BookOfRecipesContext _context;
         private readonly IMapper _mapper;
 
-        public CreateRecipeRequestHandler(IMapper mapper)
+        public CreateRecipeRequestHandler(BookOfRecipesContext context, IMapper mapper)
         {
+            _context = context;
             _mapper = mapper;
         }
 
@@ -25,31 +27,38 @@ namespace BookOfRecipes.BusinessLogic.Recipes.RequestHandlers
             var recipeToCreate = _mapper.Map<Recipe>(request.Recipe);
             var recipeVariation = _mapper.Map<RecipeVariation>(request.Recipe);
 
-            using (var db = new BookOfRecipesContext())
+            var existedRecipe = await _context.Recipes
+                .Include(r => r.Variations)
+                .FirstOrDefaultAsync(r => r.Name.Equals(recipeToCreate.Name))
+                .ConfigureAwait(false);
+
+            if (existedRecipe == null)
             {
-                var existedRecipe = await db.Recipes
-                    .Include(r => r.Variations)
-                    .FirstOrDefaultAsync(r => r.Name.Equals(recipeToCreate.Name))
-                    .ConfigureAwait(false);
-
-                if (existedRecipe == null)
+                foreach (var ingredient in recipeVariation.Ingredients)
                 {
-                    db.Recipes.Add(new Recipe
+                    ingredient.RecipeVariation = recipeVariation;
+                }
+
+                var recipe = new Recipe
+                {
+                    Name = recipeToCreate.Name,
+                    Variations = new List<RecipeVariation>
                     {
-                        Name = recipeToCreate.Name,
-                        Variations = new List<RecipeVariation>
-                        {
-                            recipeVariation
-                        }
-                    });
-                }
-                else
-                {
-                    existedRecipe.Variations.Add(recipeVariation);
-                }
+                        recipeVariation
+                    }
+                };
 
-                await db.SaveChangesAsync().ConfigureAwait(false);
+                recipeVariation.Recipe = recipe;
+
+                _context.Recipes.Add(recipe);
             }
+            else
+            {
+                recipeVariation.RecipeId = existedRecipe.Id;
+                existedRecipe.Variations.Add(recipeVariation);
+            }
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

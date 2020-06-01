@@ -126,23 +126,33 @@ namespace BookOfRecipes.Data.Migrations
                     Name = table.Column<string>(maxLength: 100, nullable: true),
                     Amount = table.Column<decimal>(nullable: false),
                     MeasureUnit = table.Column<string>(nullable: true),
-                    RecipeId = table.Column<int>(nullable: false)
+                    RecipeVariationId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ingredients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ingredients_RecipeVariations_RecipeId",
-                        column: x => x.RecipeId,
+                        name: "FK_Ingredients_RecipeVariations_RecipeVariationId",
+                        column: x => x.RecipeVariationId,
                         principalTable: "RecipeVariations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Default Role" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "Name", "RoleId" },
+                values: new object[] { 1, "test@mail.me", "Test User", 1 });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Ingredients_RecipeId",
+                name: "IX_Ingredients_RecipeVariationId",
                 table: "Ingredients",
-                column: "RecipeId");
+                column: "RecipeVariationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipeVariations_CreatedBy",

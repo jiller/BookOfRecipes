@@ -15,26 +15,27 @@ namespace BookOfRecipes.BusinessLogic.Recipes.RequestHandlers
     [UsedImplicitly]
     public class GetRecipesRequestHandler : IRequestHandler<GetRecipesRequest, IEnumerable<RecipeDto>>
     {
+        private readonly BookOfRecipesContext _context;
         private readonly IMapper _mapper;
 
-        public GetRecipesRequestHandler(IMapper mapper)
+        public GetRecipesRequestHandler(BookOfRecipesContext context, IMapper mapper)
         {
+            _context = context;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<RecipeDto>> Handle(GetRecipesRequest request, CancellationToken cancellationToken)
         {
-            using (var db = new BookOfRecipesContext())
-            {
-                var recipes = await db.RecipeVariations
-                    .Include(rv => rv.Author)
-                    .OrderByDescending(rv => rv.CreatedAt)
-                    .Take(100)
-                    .ToArrayAsync()
-                    .ConfigureAwait(false);
+            var recipes = await _context.RecipeVariations
+                .Include(rv => rv.Author)
+                .Include(rv => rv.Ingredients)
+                .Include(rv => rv.Recipe)
+                .OrderByDescending(rv => rv.CreatedAt)
+                .Take(100)
+                .ToArrayAsync()
+                .ConfigureAwait(false);
 
-                return _mapper.Map<IEnumerable<RecipeDto>>(recipes);
-            }
+            return _mapper.Map<IEnumerable<RecipeDto>>(recipes);
         }
     }
 }

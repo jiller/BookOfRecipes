@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public decimal Amount { get; set; }
         public string MeasureUnit { get; set; }
-        public int RecipeId { get; set; }
-        public virtual RecipeVariation Recipe { get; set; }
+        public int RecipeVariationId { get; set; }
+        public virtual RecipeVariation RecipeVariation { get; set; }
     }
 }
