@@ -54,6 +54,8 @@ namespace BookOfRecipes.BusinessLogic.Recipes.RequestHandlers
             }
             else
             {
+                // TODO: Throw error if such recipe variation already exists
+
                 recipeVariation.RecipeId = existedRecipe.Id;
                 existedRecipe.Variations.Add(recipeVariation);
             }
